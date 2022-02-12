@@ -4,34 +4,58 @@
  * @Author: LiuYang
  * @Date: 2022-02-10 06:57:08
  * @LastEditors: LiuYang
- * @LastEditTime: 2022-02-12 05:43:04
+ * @LastEditTime: 2022-02-12 19:42:10
 -->
 <template>
   <div class="box">
-    <div id="tui-image-editor"></div>
-    <div class="bottom">
-      <div class="action">
-        <el-input
-          type="textarea"
-          :rows="3"
-          placeholder="请输入内容"
-          v-model="msg"
-          class="ipt"
-          :maxlength="200"
-        >
-        </el-input>
-        <el-button type="primary" class="next-btn" @click="handlerNext"
-          >下一张</el-button
-        >
-        <input
-          type="file"
-          id="fileUpload"
-          webkitdirectory
-          @change="selectImg"
-          multiple
-        />
+    <div class="top">
+      <div class="t">
+        <div id="tui-image-editor"></div>
       </div>
-      <div class="img-box">
+      <div class="sets">
+        <div class="row">
+          <div class="ipt-title">教师：</div>
+          <el-input v-model="teacher.name" placeholder="教师名称"></el-input>
+        </div>
+        <div class="row">
+          <el-input
+            type="textarea"
+            :rows="6"
+            placeholder="评语"
+            v-model="msg"
+            class="ipt"
+            :maxlength="200"
+          >
+          </el-input>
+        </div>
+        <div class="row">
+          <div class="ipt-title">审美：</div>
+          <el-input v-model="chartData[0]" placeholder="审美"></el-input>
+        </div>
+        <div class="row">
+          <div class="ipt-title">创意：</div>
+          <el-input v-model="chartData[1]" placeholder="创意"></el-input>
+        </div>
+        <div class="row">
+          <div class="ipt-title">排版：</div>
+          <el-input v-model="chartData[2]" placeholder="排版"></el-input>
+        </div>
+        <div class="row">
+          <div class="ipt-title">色彩：</div>
+          <el-input v-model="chartData[3]" placeholder="色彩"></el-input>
+        </div>
+        <div class="row">
+          <div class="ipt-title">整体：</div>
+          <el-input v-model="chartData[4]" placeholder="整体"></el-input>
+        </div>
+        <div class="row">
+          <div class="ipt-title">字体：</div>
+          <el-input v-model="chartData[5]" placeholder="字体"></el-input>
+        </div>
+      </div>
+    </div>
+    <div class="bottom">
+      
         <div class="imgs">
           <div
             class="img-item"
@@ -46,36 +70,17 @@
             "
           ></div>
         </div>
-        <div class="set">
-          <div class="row">
-            <div class="ipt-title">教师名称：</div>
-            <el-input v-model="teacher.name" placeholder="教师名称"></el-input>
-          </div>
-          <div class="row">
-            <div class="ipt-title">审美：</div>
-            <el-input v-model="chartData[0]" placeholder="审美"></el-input>
-          </div>
-          <div class="row">
-            <div class="ipt-title">创意：</div>
-            <el-input v-model="chartData[1]" placeholder="创意"></el-input>
-          </div>
-          <div class="row">
-            <div class="ipt-title">排版：</div>
-            <el-input v-model="chartData[2]" placeholder="排版"></el-input>
-          </div>
-          <div class="row">
-            <div class="ipt-title">色彩：</div>
-            <el-input v-model="chartData[3]" placeholder="色彩"></el-input>
-          </div>
-          <div class="row">
-            <div class="ipt-title">整体：</div>
-            <el-input v-model="chartData[4]" placeholder="整体"></el-input>
-          </div>
-          <div class="row">
-            <div class="ipt-title">字体：</div>
-            <el-input v-model="chartData[5]" placeholder="字体"></el-input>
-          </div>
-        </div>
+        <div class="action">
+        <el-button type="primary" class="next-btn" @click="handlerNext"
+          >下一张</el-button
+        >
+        <input
+          type="file"
+          id="fileUpload"
+          webkitdirectory
+          @change="selectImg"
+          multiple
+        />
       </div>
     </div>
 
@@ -352,7 +357,9 @@ export default {
       this.base64Url = "";
     },
     initChart() {
-      this.myChart = this.$echarts.init(this.$refs.myChart);
+      this.myChart = this.$echarts.init(this.$refs.myChart, null, {
+        renderer: "svg",
+      });
       // 绘制图表
       this.myChart.setOption({
         radar: [
@@ -371,27 +378,27 @@ export default {
             indicator: [
               {
                 name: "审美",
-                max: 100,
+                max: 60,
               },
               {
                 name: "字体",
-                max: 100,
+                max: 60,
               },
               {
                 name: "整体",
-                max: 100,
+                max: 60,
               },
               {
                 name: "色彩",
-                max: 100,
+                max: 60,
               },
               {
                 name: "排版",
-                max: 100,
+                max: 60,
               },
               {
                 name: "创意",
-                max: 100,
+                max: 60,
               },
             ],
             //文字与图的距离
@@ -441,30 +448,46 @@ export default {
   height: 80vh;
   width: 100%;
 }
+.top {
+  display: flex;
+
+  .t {
+    width: 80%;
+    height: 600px;
+  }
+  .sets {
+    width: 20%;
+    padding-left: 10px;
+    .row {
+      display: flex;
+      align-items: center;
+      margin-top: 10px;
+      .ipt-title {
+        width: 80px;
+        font-size: 14px;
+      }
+    }
+  }
+}
 .bottom {
   padding: 20px;
+  display: flex;
+  
   .action {
     display: flex;
     align-items: center;
-    .ipt {
-      width: 65%;
-    }
     .next-btn {
       margin: 0 10px;
     }
   }
 }
 
-.img-box {
-  display: flex;
-  margin-top: 10px;
-  box-sizing: border-box;
-  .imgs {
+.imgs {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     // height: 100px;
-    width: 65%;
+    width: 80%;
     .img-item {
       height: 100px;
       width: 80px;
@@ -476,22 +499,9 @@ export default {
     .active {
       width: 90px;
       height: 110px;
+      border: 2px solid red;
     }
   }
-  .set {
-    width: 30%;
-    margin-left: 10px;
-    .row {
-      display: flex;
-      align-items: center;
-      margin-top: 10px;
-      .ipt-title {
-        width: 100px;
-        font-size: 14px;
-      }
-    }
-  }
-}
 
 //预览
 .preview {
