@@ -4,7 +4,7 @@
  * @Author: LiuYang
  * @Date: 2022-02-10 06:57:08
  * @LastEditors: LiuYang
- * @LastEditTime: 2022-02-12 19:42:10
+ * @LastEditTime: 2022-02-12 20:37:31
 -->
 <template>
   <div class="box">
@@ -15,7 +15,17 @@
       <div class="sets">
         <div class="row">
           <div class="ipt-title">教师：</div>
-          <el-input v-model="teacher.name" placeholder="教师名称"></el-input>
+          <!-- <el-input v-model="teacher.name" placeholder="教师名称"></el-input> -->
+               
+          <el-select v-model="teacher" placeholder="请选择" @change="changeTeacher" value-key="value">
+            <el-option
+              v-for="(item) in teacherList"
+              :key="item.value"
+              :label="item.value"
+              :value="item"
+            >
+            </el-option>
+          </el-select>
         </div>
         <div class="row">
           <el-input
@@ -55,22 +65,21 @@
       </div>
     </div>
     <div class="bottom">
-      
-        <div class="imgs">
-          <div
-            class="img-item"
-            v-for="(item, index) in imgsList"
-            :key="index"
-            @click="changeCurrentImg(item, index)"
-            :class="index == activeIndex ? 'active' : ''"
-            :style="
-              'background: url(' +
-              item.path +
-              ') no-repeat;background-size: 100% 100%'
-            "
-          ></div>
-        </div>
-        <div class="action">
+      <div class="imgs">
+        <div
+          class="img-item"
+          v-for="(item, index) in imgsList"
+          :key="index"
+          @click="changeCurrentImg(item, index)"
+          :class="index == activeIndex ? 'active' : ''"
+          :style="
+            'background: url(' +
+            item.path +
+            ') no-repeat;background-size: 100% 100%'
+          "
+        ></div>
+      </div>
+      <div class="action">
         <el-button type="primary" class="next-btn" @click="handlerNext"
           >下一张</el-button
         >
@@ -103,10 +112,10 @@
 
       <div class="teacher">
         <div class="left">
-          <img src="../assets/logo.jpg" alt="" class="avatar" />
+          <img :src="teacher.avatar" alt="" class="avatar" />
           <div class="names">
             <div>辅导研究员：</div>
-            <div>{{ teacher.name }}</div>
+            <div>{{ teacher.value }}</div>
           </div>
         </div>
         <img src="../assets/logo2.png" alt="" class="right" />
@@ -133,9 +142,63 @@ export default {
       chartData: [0, 0, 0, 0, 0, 0],
       myChart: null,
       teacher: {
-        name: "",
-        avatar: "",
+        labal: "001@shakeup-lab",
+          value: "001@shakeup-lab",
+          avatar: require('../assets/teacher/001@shakeup-lab.jpg')
       },
+      teacherName: '',
+      teacherList: [
+        {
+          labal: "001@shakeup-lab",
+          value: "001@shakeup-lab",
+          avatar: require('../assets/teacher/001@shakeup-lab.jpg')
+        },
+        {
+          labal: "橙子@shakeup-lab",
+          value: "橙子@shakeup-lab",
+          avatar: require('../assets/teacher/橙子@shakeup-lab.jpg')
+        },
+        {
+          labal: "超超@shakeup-lab",
+          value: "超超@shakeup-lab",
+          avatar: require('../assets/teacher/超超@shakeup-lab.jpg')
+        },
+        {
+          labal: "莓莓@shakeup-lab",
+          value: "莓莓@shakeup-lab",
+          avatar: require('../assets/teacher/莓莓@shakeup-lab.jpg')
+        },
+        {
+          labal: "七七@shakeup-lab",
+          value: "七七@shakeup-lab",
+          avatar: require('../assets/teacher/七七@shakeup-lab.jpg')
+        },
+        {
+          labal: "阿易@shakeup-lab",
+          value: "阿易@shakeup-lab",
+          avatar: require('../assets/teacher/阿易@shakeup-lab.jpg')
+        },
+        {
+          labal: "三三@shakeup-lab",
+          value: "三三@shakeup-lab",
+          avatar: require('../assets/teacher/三三@shakeup-lab.jpg')
+        },
+        {
+          labal: "老豆@shakeup-lab",
+          value: "老豆@shakeup-lab",
+          avatar: require('../assets/teacher/老豆@shakeup-lab.webp')
+        },
+        {
+          labal: "敦敦@shakeup-lab",
+          value: "敦敦@shakeup-lab",
+          avatar: require('../assets/teacher/敦敦@shakeup-lab.jpg')
+        },
+        {
+          labal: "九久@shakeup-lab",
+          value: "九久@shakeup-lab",
+          avatar: require('../assets/teacher/九久@shakeup-lab.webp')
+        },
+      ],
     };
   },
   mounted() {
@@ -440,6 +503,16 @@ export default {
         ],
       });
     },
+    changeTeacher(value){
+      console.log('teacherName',this.teacherName);
+      console.log('返回值',value);
+
+      // let current = this.teacherList.find(item => {
+      //   return item.value = value
+      // })
+      // console.log(current);
+      // this.teacher = current
+    }
   },
 };
 </script>
@@ -472,7 +545,7 @@ export default {
 .bottom {
   padding: 20px;
   display: flex;
-  
+
   .action {
     display: flex;
     align-items: center;
@@ -483,25 +556,25 @@ export default {
 }
 
 .imgs {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    // height: 100px;
-    width: 80%;
-    .img-item {
-      height: 100px;
-      width: 80px;
-      margin: 10px 10px 0 0;
-      cursor: pointer;
-      background: url() no-repeat;
-      background-size: 100% 100%;
-    }
-    .active {
-      width: 90px;
-      height: 110px;
-      border: 2px solid red;
-    }
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  // height: 100px;
+  width: 80%;
+  .img-item {
+    height: 100px;
+    width: 80px;
+    margin: 10px 10px 0 0;
+    cursor: pointer;
+    background: url() no-repeat;
+    background-size: 100% 100%;
   }
+  .active {
+    width: 90px;
+    height: 110px;
+    border: 2px solid red;
+  }
+}
 
 //预览
 .preview {
