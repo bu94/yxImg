@@ -4,7 +4,7 @@
  * @Author: LiuYang
  * @Date: 2022-02-10 06:57:08
  * @LastEditors: LiuYang
- * @LastEditTime: 2022-02-12 20:37:31
+ * @LastEditTime: 2022-02-13 16:54:18
 -->
 <template>
   <div class="box">
@@ -16,10 +16,15 @@
         <div class="row">
           <div class="ipt-title">教师：</div>
           <!-- <el-input v-model="teacher.name" placeholder="教师名称"></el-input> -->
-               
-          <el-select v-model="teacher" placeholder="请选择" @change="changeTeacher" value-key="value">
+
+          <el-select
+            v-model="teacher"
+            placeholder="请选择"
+            @change="changeTeacher"
+            value-key="value"
+          >
             <el-option
-              v-for="(item) in teacherList"
+              v-for="item in teacherList"
               :key="item.value"
               :label="item.value"
               :value="item"
@@ -40,27 +45,57 @@
         </div>
         <div class="row">
           <div class="ipt-title">审美：</div>
-          <el-input v-model="chartData[0]" placeholder="审美"></el-input>
+          <el-input-number
+            v-model="chartData[0]"
+            :min="0"
+            :max="6"
+            placeholder="审美"
+          ></el-input-number>
         </div>
         <div class="row">
           <div class="ipt-title">创意：</div>
-          <el-input v-model="chartData[1]" placeholder="创意"></el-input>
+          <el-input-number
+            v-model="chartData[1]"
+            :min="0"
+            :max="6"
+            placeholder="创意"
+          ></el-input-number>
         </div>
         <div class="row">
           <div class="ipt-title">排版：</div>
-          <el-input v-model="chartData[2]" placeholder="排版"></el-input>
+          <el-input-number
+            v-model="chartData[2]"
+            :min="0"
+            :max="6"
+            placeholder="排版"
+          ></el-input-number>
         </div>
         <div class="row">
           <div class="ipt-title">色彩：</div>
-          <el-input v-model="chartData[3]" placeholder="色彩"></el-input>
+          <el-input-number
+            v-model="chartData[3]"
+            :min="0"
+            :max="6"
+            placeholder="色彩"
+          ></el-input-number>
         </div>
         <div class="row">
           <div class="ipt-title">整体：</div>
-          <el-input v-model="chartData[4]" placeholder="整体"></el-input>
+          <el-input-number
+            v-model="chartData[4]"
+            :min="0"
+            :max="6"
+            placeholder="整体"
+          ></el-input-number>
         </div>
         <div class="row">
           <div class="ipt-title">字体：</div>
-          <el-input v-model="chartData[5]" placeholder="字体"></el-input>
+          <el-input-number
+            v-model="chartData[5]"
+            :min="0"
+            :max="6"
+            placeholder="字体"
+          ></el-input-number>
         </div>
       </div>
     </div>
@@ -95,12 +130,16 @@
 
     <!-- 预览合成效果 -->
     <div id="preview" class="preview" ref="imageWrapper">
-      <img
-        :src="base64Url"
-        alt=""
-        class="preview-img"
-        crossorigin="anonymous"
-      />
+      <div class="i" :style="'background: rgba' + rgba">
+        <img
+          :src="base64Url"
+          alt=""
+          class="preview-img"
+          crossorigin="anonymous"
+        />
+        <!-- <img src="../assets/logo2.png" alt="" class="logo-s" /> -->
+      </div>
+
       <div class="preview-bottom">
         <div class="msg-box">
           <div class="msg-title">指导意见</div>
@@ -143,62 +182,63 @@ export default {
       myChart: null,
       teacher: {
         labal: "001@shakeup-lab",
-          value: "001@shakeup-lab",
-          avatar: require('../assets/teacher/001@shakeup-lab.jpg')
+        value: "001@shakeup-lab",
+        avatar: require("../assets/teacher/001@shakeup-lab.jpg"),
       },
-      teacherName: '',
+      teacherName: "",
       teacherList: [
         {
           labal: "001@shakeup-lab",
           value: "001@shakeup-lab",
-          avatar: require('../assets/teacher/001@shakeup-lab.jpg')
+          avatar: require("../assets/teacher/001@shakeup-lab.jpg"),
         },
         {
           labal: "橙子@shakeup-lab",
           value: "橙子@shakeup-lab",
-          avatar: require('../assets/teacher/橙子@shakeup-lab.jpg')
+          avatar: require("../assets/teacher/橙子@shakeup-lab.jpg"),
         },
         {
           labal: "超超@shakeup-lab",
           value: "超超@shakeup-lab",
-          avatar: require('../assets/teacher/超超@shakeup-lab.jpg')
+          avatar: require("../assets/teacher/超超@shakeup-lab.jpg"),
         },
         {
           labal: "莓莓@shakeup-lab",
           value: "莓莓@shakeup-lab",
-          avatar: require('../assets/teacher/莓莓@shakeup-lab.jpg')
+          avatar: require("../assets/teacher/莓莓@shakeup-lab.jpg"),
         },
         {
           labal: "七七@shakeup-lab",
           value: "七七@shakeup-lab",
-          avatar: require('../assets/teacher/七七@shakeup-lab.jpg')
+          avatar: require("../assets/teacher/七七@shakeup-lab.jpg"),
         },
         {
           labal: "阿易@shakeup-lab",
           value: "阿易@shakeup-lab",
-          avatar: require('../assets/teacher/阿易@shakeup-lab.jpg')
+          avatar: require("../assets/teacher/阿易@shakeup-lab.jpg"),
         },
         {
           labal: "三三@shakeup-lab",
           value: "三三@shakeup-lab",
-          avatar: require('../assets/teacher/三三@shakeup-lab.jpg')
+          avatar: require("../assets/teacher/三三@shakeup-lab.jpg"),
         },
         {
           labal: "老豆@shakeup-lab",
           value: "老豆@shakeup-lab",
-          avatar: require('../assets/teacher/老豆@shakeup-lab.webp')
+          avatar: require("../assets/teacher/老豆@shakeup-lab.webp"),
         },
         {
           labal: "敦敦@shakeup-lab",
           value: "敦敦@shakeup-lab",
-          avatar: require('../assets/teacher/敦敦@shakeup-lab.jpg')
+          avatar: require("../assets/teacher/敦敦@shakeup-lab.jpg"),
         },
         {
           labal: "九久@shakeup-lab",
           value: "九久@shakeup-lab",
-          avatar: require('../assets/teacher/九久@shakeup-lab.webp')
+          avatar: require("../assets/teacher/九久@shakeup-lab.webp"),
         },
       ],
+      rgba: "",
     };
   },
   mounted() {
@@ -282,9 +322,9 @@ export default {
         "Lock Aspect Ratio": "锁定宽高比例",
       };
       const customTheme = {
-        "common.bi.image": require("../../src/assets/logo.jpg"), // 左上角logo图片
-        "common.bisize.width": "150px",
-        "common.bisize.height": "50px",
+        "common.bi.image": require("../assets/logo2.png"), // 左上角logo图片
+        "common.bisize.width": "130px",
+        "common.bisize.height": "34px",
         // "common.backgroundImage": "none",
         // "common.backgroundColor": "#f3f4f6",
         // "common.border": "1px solid #333",
@@ -316,7 +356,7 @@ export default {
           includeUI: {
             loadImage: this.currentImage,
             initMenu: "draw", // 默认打开的菜单项
-            menuBarPosition: "bottom", // 菜单所在的位置
+            menuBarPosition: "left", // 菜单所在的位置
             locale: locale_zh,
             theme: customTheme, // 自定义样式
           },
@@ -326,12 +366,29 @@ export default {
       );
       document.getElementsByClassName("tui-image-editor-main")[0].style.top =
         "45px"; // 图片距顶部工具栏的距离
+
+      this.getRgba()
     },
     changeCurrentImg(item, index) {
       this.activeIndex = index;
       this.currentImage = item;
       this.instance.loadImageFromURL(item.path, item.name);
       // this.init();
+      this.getRgba()
+
+    },
+    getRgba(){
+      setTimeout(() => {
+        let c = document.getElementsByClassName("lower-canvas")[0];
+        let width = c.width;
+        let height = c.height;
+
+        let ctx = c.getContext("2d");
+        let imgData = ctx.getImageData(10, 10, width, height);
+        let rgba = `(${imgData.data[2]},${imgData.data[1]},${imgData.data[2]},${imgData.data[3]})`;
+        this.rgba = rgba;
+        // console.log(c.width);
+      }, 1000);
     },
     handlerNext() {
       this.getEditImg();
@@ -441,33 +498,33 @@ export default {
             indicator: [
               {
                 name: "审美",
-                max: 60,
+                max: 6,
               },
               {
                 name: "字体",
-                max: 60,
+                max: 6,
               },
               {
                 name: "整体",
-                max: 60,
+                max: 6,
               },
               {
                 name: "色彩",
-                max: 60,
+                max: 6,
               },
               {
                 name: "排版",
-                max: 60,
+                max: 6,
               },
               {
                 name: "创意",
-                max: 60,
+                max: 6,
               },
             ],
             //文字与图的距离
             nameGap: 3,
             //指示器轴的分割段数
-            splitNumber: 5,
+            splitNumber: 6,
 
             //分割区域是否显示
             splitArea: {
@@ -503,16 +560,16 @@ export default {
         ],
       });
     },
-    changeTeacher(value){
-      console.log('teacherName',this.teacherName);
-      console.log('返回值',value);
+    changeTeacher(value) {
+      console.log("teacherName", this.teacherName);
+      console.log("返回值", value);
 
       // let current = this.teacherList.find(item => {
       //   return item.value = value
       // })
       // console.log(current);
       // this.teacher = current
-    }
+    },
   },
 };
 </script>
@@ -526,7 +583,7 @@ export default {
 
   .t {
     width: 80%;
-    height: 600px;
+    height: 80vh;
   }
   .sets {
     width: 20%;
@@ -583,11 +640,26 @@ export default {
   box-sizing: border-box;
   border-radius: 10px;
   width: 672px;
-
-  .preview-img {
+  .i {
+    // position: relative;
+    display: flex;
+    justify-content: center;
     width: 640px;
     height: 360px;
     border-radius: 6px;
+    background-color: rgba(93,157,93,255);
+    // .logo-s {
+    //   position: absolute;
+    //   bottom: 10px;
+    //   right: 10px;
+    //   width: 114px;
+    // }
+  }
+  .preview-img {
+    height: 360px;
+    max-width: 640px;
+    border-radius: 6px;
+
   }
   .preview-bottom {
     display: flex;
