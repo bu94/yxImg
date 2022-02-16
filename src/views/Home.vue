@@ -4,7 +4,7 @@
  * @Author: LiuYang
  * @Date: 2022-02-10 06:57:08
  * @LastEditors: LiuYang
- * @LastEditTime: 2022-02-16 21:53:02
+ * @LastEditTime: 2022-02-16 23:35:13
 -->
 <template>
   <div>
@@ -51,18 +51,7 @@
             </el-option>
           </el-select>
         </div>
-        <div class="row">
-          <!-- <el-input
-            type="textarea"
-            :rows="6"
-            placeholder="评语"
-            v-model=""
-            class="ipt"
-            :maxlength="200"
-          >
-          </el-input> -->
-          <div id="e" class="edit-box"></div>
-        </div>
+        
         <div class="row">
           <div class="ipt-title">审美：</div>
           <el-input-number
@@ -116,6 +105,9 @@
             :max="6"
             placeholder="字体"
           ></el-input-number>
+        </div>
+        <div class="row">
+          <div id="e" class="edit-box"></div>
         </div>
         <div class="row">
           <div class="ipt-title">背景色：</div>
@@ -245,8 +237,8 @@ export default {
           avatar: require("../assets/teacher/敦敦@shakeup-lab.jpg"),
         },
         {
-          labal: "九久@shakeup-lab",
-          value: "九久@shakeup-lab",
+          labal: "九九@shakeup-lab",
+          value: "九九@shakeup-lab",
           avatar: require("../assets/teacher/九久@shakeup-lab.webp"),
         },
       ],
@@ -610,6 +602,7 @@ export default {
         "foreColor", // 文字颜色
         "list", // 列表
         "justify", // 对齐方式
+        "lineHeight"
       ];
       this.editor.create();
       this.editor.config.onchange = (html) => {
@@ -717,11 +710,18 @@ export default {
         color: #fff;
         margin: 25px 0 10px;
       }
-      .msg {
+      /deep/.msg {
         font-size: 12px;
         color: #a3a3a3;
         word-wrap: break-word;
         word-break: break-all;
+        p,span,div,h1,h2,h3,h4,h5,h6,li,ul,ol, {
+          margin: 0;
+          padding: 0;
+        }
+        li {
+          list-style: none;
+        }
       }
     }
     .radar {
