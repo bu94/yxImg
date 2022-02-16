@@ -4,15 +4,34 @@
  * @Author: LiuYang
  * @Date: 2022-02-10 06:57:08
  * @LastEditors: LiuYang
- * @LastEditTime: 2022-02-13 16:54:18
+ * @LastEditTime: 2022-02-16 21:53:02
 -->
 <template>
-  <div class="box">
-    <div class="top">
+  <div>
+    <div class="box">
+    <div class="left">
       <div class="t">
         <div id="tui-image-editor"></div>
       </div>
+      <div class="imgs">
+        <div
+          class="img-item"
+          v-for="(item, index) in imgsList"
+          :key="index"
+          @click="changeCurrentImg(item, index)"
+          :class="index == activeIndex ? 'active' : ''"
+          :style="
+            'background: url(' +
+            item.path +
+            ') no-repeat;background-size: 100% 100%'
+          "
+        ></div>
+      </div>
+    </div>
+    <div class="right">
+      
       <div class="sets">
+        
         <div class="row">
           <div class="ipt-title">教师：</div>
           <!-- <el-input v-model="teacher.name" placeholder="教师名称"></el-input> -->
@@ -33,15 +52,16 @@
           </el-select>
         </div>
         <div class="row">
-          <el-input
+          <!-- <el-input
             type="textarea"
             :rows="6"
             placeholder="评语"
-            v-model="msg"
+            v-model=""
             class="ipt"
             :maxlength="200"
           >
-          </el-input>
+          </el-input> -->
+          <div id="e" class="edit-box"></div>
         </div>
         <div class="row">
           <div class="ipt-title">审美：</div>
@@ -97,22 +117,11 @@
             placeholder="字体"
           ></el-input-number>
         </div>
-      </div>
-    </div>
-    <div class="bottom">
-      <div class="imgs">
-        <div
-          class="img-item"
-          v-for="(item, index) in imgsList"
-          :key="index"
-          @click="changeCurrentImg(item, index)"
-          :class="index == activeIndex ? 'active' : ''"
-          :style="
-            'background: url(' +
-            item.path +
-            ') no-repeat;background-size: 100% 100%'
-          "
-        ></div>
+        <div class="row">
+          <div class="ipt-title">背景色：</div>
+
+          <el-color-picker v-model="rgba"></el-color-picker>
+        </div>
       </div>
       <div class="action">
         <el-button type="primary" class="next-btn" @click="handlerNext"
@@ -128,9 +137,11 @@
       </div>
     </div>
 
-    <!-- 预览合成效果 -->
+    
+  </div>
+  <!-- 预览合成效果 -->
     <div id="preview" class="preview" ref="imageWrapper">
-      <div class="i" :style="'background: rgba' + rgba">
+      <div class="i" :style="'background:' + rgba">
         <img
           :src="base64Url"
           alt=""
@@ -143,7 +154,7 @@
       <div class="preview-bottom">
         <div class="msg-box">
           <div class="msg-title">指导意见</div>
-          <div class="msg">{{ msg }}</div>
+          <div class="msg" v-html="msg"></div>
         </div>
         <!-- 雷达图 -->
         <div class="radar" ref="myChart"></div>
@@ -167,6 +178,7 @@ import "tui-image-editor/dist/tui-image-editor.css";
 import "tui-color-picker/dist/tui-color-picker.css";
 import ImageEditor from "tui-image-editor";
 import html2canvas from "html2canvas";
+import E from "wangeditor";
 export default {
   data() {
     return {
@@ -239,10 +251,12 @@ export default {
         },
       ],
       rgba: "",
+      editor: null,
     };
   },
   mounted() {
     this.init();
+    this.initE();
     this.initChart();
   },
   methods: {
@@ -367,17 +381,29 @@ export default {
       document.getElementsByClassName("tui-image-editor-main")[0].style.top =
         "45px"; // 图片距顶部工具栏的距离
 
-      this.getRgba()
+      this.isPng();
     },
     changeCurrentImg(item, index) {
       this.activeIndex = index;
       this.currentImage = item;
       this.instance.loadImageFromURL(item.path, item.name);
       // this.init();
-      this.getRgba()
-
+      console.log("currentImage", this.currentImage);
+      this.isPng();
     },
-    getRgba(){
+    isPng() {
+      if (this.currentImage.name) {
+        if (
+          this.currentImage.name.indexOf("png") == -1 &&
+          this.currentImage.name.indexOf("PNG") == -1
+        ) {
+          this.getRgba();
+        } else {
+          this.rgba = "#fff";
+        }
+      }
+    },
+    getRgba() {
       setTimeout(() => {
         let c = document.getElementsByClassName("lower-canvas")[0];
         let width = c.width;
@@ -385,7 +411,7 @@ export default {
 
         let ctx = c.getContext("2d");
         let imgData = ctx.getImageData(10, 10, width, height);
-        let rgba = `(${imgData.data[2]},${imgData.data[1]},${imgData.data[2]},${imgData.data[3]})`;
+        let rgba = `rgba(${imgData.data[2]},${imgData.data[1]},${imgData.data[2]},${imgData.data[3]})`;
         this.rgba = rgba;
         // console.log(c.width);
       }, 1000);
@@ -570,54 +596,46 @@ export default {
       // console.log(current);
       // this.teacher = current
     },
+    initE() {
+      this.editor = new E("#e");
+      //这里各位小伙伴可以查询官网，根据自己的需求进行菜单栏调整
+      this.editor.config.menus = [
+        "head", // 标题
+        "bold", // 粗体
+        "fontSize", // 字号
+        "fontName", // 字体
+        "italic", // 斜体
+        "underline", // 下划线
+        "strikeThrough", // 删除线
+        "foreColor", // 文字颜色
+        "list", // 列表
+        "justify", // 对齐方式
+      ];
+      this.editor.create();
+      this.editor.config.onchange = (html) => {
+        this.msg = html; // 绑定当前逐渐地值
+      };
+    },
   },
 };
 </script>
 <style lang="less" scoped>
 .box {
-  height: 80vh;
+  display: flex;
   width: 100%;
 }
-.top {
-  display: flex;
-
+.left {
+  width: 80%;
   .t {
-    width: 80%;
+    width: 100%;
     height: 80vh;
   }
-  .sets {
-    width: 20%;
-    padding-left: 10px;
-    .row {
-      display: flex;
-      align-items: center;
-      margin-top: 10px;
-      .ipt-title {
-        width: 80px;
-        font-size: 14px;
-      }
-    }
-  }
-}
-.bottom {
-  padding: 20px;
-  display: flex;
-
-  .action {
-    display: flex;
-    align-items: center;
-    .next-btn {
-      margin: 0 10px;
-    }
-  }
-}
-
-.imgs {
+  .imgs {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   // height: 100px;
-  width: 80%;
+  width: 100%;
   .img-item {
     height: 100px;
     width: 80px;
@@ -632,6 +650,37 @@ export default {
     border: 2px solid red;
   }
 }
+  
+}
+.right {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  width: 20%;
+  .sets {
+    width: 100%;
+    padding-left: 10px;
+    .row {
+      display: flex;
+      align-items: center;
+      margin-top: 10px;
+      .ipt-title {
+        width: 80px;
+        font-size: 14px;
+      }
+    }
+  }
+  .action {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    .next-btn {
+      margin: 0 10px;
+    }
+  }
+}
+
+
 
 //预览
 .preview {
@@ -647,19 +696,15 @@ export default {
     width: 640px;
     height: 360px;
     border-radius: 6px;
-    background-color: rgba(93,157,93,255);
-    // .logo-s {
-    //   position: absolute;
-    //   bottom: 10px;
-    //   right: 10px;
-    //   width: 114px;
-    // }
+    background-color: rgba(93, 157, 93, 255);
+    overflow: hidden;
   }
   .preview-img {
+    display: block;
     height: 360px;
-    max-width: 640px;
-    border-radius: 6px;
-
+    max-width: 100%;
+    border: none;
+    
   }
   .preview-bottom {
     display: flex;
@@ -709,5 +754,9 @@ export default {
       width: 114px;
     }
   }
+}
+.edit-box {
+  // height: 300px;
+  width: 100%;
 }
 </style>
