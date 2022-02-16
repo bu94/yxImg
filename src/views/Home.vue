@@ -4,7 +4,7 @@
  * @Author: LiuYang
  * @Date: 2022-02-10 06:57:08
  * @LastEditors: LiuYang
- * @LastEditTime: 2022-02-16 23:35:13
+ * @LastEditTime: 2022-02-17 00:00:40
 -->
 <template>
   <div>
@@ -51,7 +51,9 @@
             </el-option>
           </el-select>
         </div>
-        
+        <div class="row">
+          <div id="e" class="edit-box"></div>
+        </div>
         <div class="row">
           <div class="ipt-title">审美：</div>
           <el-input-number
@@ -106,13 +108,11 @@
             placeholder="字体"
           ></el-input-number>
         </div>
-        <div class="row">
-          <div id="e" class="edit-box"></div>
-        </div>
+        
         <div class="row">
           <div class="ipt-title">背景色：</div>
 
-          <el-color-picker v-model="rgba"></el-color-picker>
+          <el-color-picker v-model="rgba" popper-class="color-down"></el-color-picker>
         </div>
       </div>
       <div class="action">
@@ -612,6 +612,19 @@ export default {
   },
 };
 </script>
+
+<style>
+.w-e-menu {
+    z-index: 2 !important;
+  }
+  .w-e-text-container {
+    z-index: 1 !important;
+  }
+  .w-e-toolbar {
+    z-index: 1 !important;
+    
+  }
+</style>
 <style lang="less" scoped>
 .box {
   display: flex;
@@ -758,5 +771,10 @@ export default {
 .edit-box {
   // height: 300px;
   width: 100%;
+ 
 }
+// /deep/.el-select-dropdown,.el-popper  {
+//   z-index: 99999;
+// }
+
 </style>
