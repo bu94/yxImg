@@ -4,7 +4,7 @@
  * @Author: LiuYang
  * @Date: 2022-02-10 06:57:08
  * @LastEditors: LiuYang
- * @LastEditTime: 2022-02-17 00:00:40
+ * @LastEditTime: 2022-02-17 20:34:01
 -->
 <template>
   <div>
@@ -57,7 +57,7 @@
         <div class="row">
           <div class="ipt-title">审美：</div>
           <el-input-number
-            v-model="chartData[0]"
+            v-model="chartData.a"
             :min="0"
             :max="6"
             placeholder="审美"
@@ -66,7 +66,7 @@
         <div class="row">
           <div class="ipt-title">创意：</div>
           <el-input-number
-            v-model="chartData[1]"
+            v-model="chartData.b"
             :min="0"
             :max="6"
             placeholder="创意"
@@ -75,7 +75,7 @@
         <div class="row">
           <div class="ipt-title">排版：</div>
           <el-input-number
-            v-model="chartData[2]"
+            v-model="chartData.c"
             :min="0"
             :max="6"
             placeholder="排版"
@@ -84,7 +84,7 @@
         <div class="row">
           <div class="ipt-title">色彩：</div>
           <el-input-number
-            v-model="chartData[3]"
+            v-model="chartData.d"
             :min="0"
             :max="6"
             placeholder="色彩"
@@ -93,7 +93,7 @@
         <div class="row">
           <div class="ipt-title">整体：</div>
           <el-input-number
-            v-model="chartData[4]"
+            v-model="chartData.e"
             :min="0"
             :max="6"
             placeholder="整体"
@@ -102,7 +102,7 @@
         <div class="row">
           <div class="ipt-title">字体：</div>
           <el-input-number
-            v-model="chartData[5]"
+            v-model="chartData.f"
             :min="0"
             :max="6"
             placeholder="字体"
@@ -182,7 +182,15 @@ export default {
       msg: "",
       base64Url: "", //修改后的图片，单图
       aaa: "",
-      chartData: [0, 0, 0, 0, 0, 0],
+      chartData: {
+        a: 0,
+        b: 0,
+        c: 0,
+        d: 0,
+        e: 0,
+        f: 0,
+
+      },
       myChart: null,
       teacher: {
         labal: "001@shakeup-lab",
@@ -495,6 +503,10 @@ export default {
       this.base64Url = "";
     },
     initChart() {
+      let data = [];
+      for(let key in this.chartData){
+        data.push(this.chartData[key])
+      }
       this.myChart = this.$echarts.init(this.$refs.myChart, null, {
         renderer: "svg",
       });
@@ -519,15 +531,7 @@ export default {
                 max: 6,
               },
               {
-                name: "字体",
-                max: 6,
-              },
-              {
-                name: "整体",
-                max: 6,
-              },
-              {
-                name: "色彩",
+                name: "创意",
                 max: 6,
               },
               {
@@ -535,7 +539,15 @@ export default {
                 max: 6,
               },
               {
-                name: "创意",
+                name: "色彩",
+                max: 6,
+              },
+              {
+                name: "整体",
+                max: 6,
+              },
+              {
+                name: "字体",
                 max: 6,
               },
             ],
@@ -559,8 +571,8 @@ export default {
             symbol: "none",
             data: [
               {
-                value: this.chartData,
-                name: "执法异常问题",
+                value: data,
+                name: "评分",
                 areaStyle: {
                   color: "#123BEC",
                 },
