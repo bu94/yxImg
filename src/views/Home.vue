@@ -4,7 +4,7 @@
  * @Author: LiuYang
  * @Date: 2022-02-10 06:57:08
  * @LastEditors: LiuYang
- * @LastEditTime: 2022-02-17 20:34:01
+ * @LastEditTime: 2022-04-13 21:29:55
 -->
 <template>
   <div>
@@ -248,6 +248,21 @@ export default {
           labal: "九九@shakeup-lab",
           value: "九九@shakeup-lab",
           avatar: require("../assets/teacher/九久@shakeup-lab.webp"),
+        },
+        {
+          labal: "静静@shakeup-lab",
+          value: "静静@shakeup-lab",
+          avatar: require("../assets/teacher/静静@shakeup-lab.jpg"),
+        },
+        {
+          labal: "猜猜子@shakeup-lab",
+          value: "猜猜子@shakeup-lab",
+          avatar: require("../assets/teacher/猜猜子@shakeup-lab.jpg"),
+        },
+        {
+          labal: "一半@shakeup-lab",
+          value: "一半@shakeup-lab",
+          avatar: require("../assets/teacher/一半@shakeup-lab.jpg"),
         },
       ],
       rgba: "",
