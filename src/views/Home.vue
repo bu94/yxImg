@@ -4,7 +4,7 @@
  * @Author: LiuYang
  * @Date: 2022-02-10 06:57:08
  * @LastEditors: LiuYang
- * @LastEditTime: 2022-04-13 21:29:55
+ * @LastEditTime: 2022-04-16 01:24:25
 -->
 <template>
   <div>
@@ -14,10 +14,11 @@
         <div id="tui-image-editor"></div>
       </div>
       <div class="imgs">
-        <div
+        <div v-for="(item, index) in imgsList"
+          :key="index" class="img-name-list">
+          <!-- <div
           class="img-item"
-          v-for="(item, index) in imgsList"
-          :key="index"
+          v-show="index < 3"
           @click="changeCurrentImg(item, index)"
           :class="index == activeIndex ? 'active' : ''"
           :style="
@@ -25,7 +26,11 @@
             item.path +
             ') no-repeat;background-size: 100% 100%'
           "
-        ></div>
+        ></div> -->
+        <!-- <img :src="item.path" alt="" :class="['img-item',index == activeIndex ? 'active' : '']"  @click="changeCurrentImg(item, index)" v-if="index < 3"/> -->
+        <div :class="['img-name',index == activeIndex ? 'active' : '']" @click="changeCurrentImg(item, index)">{{item.name}}</div>
+        </div>
+        
       </div>
     </div>
     <div class="right">
@@ -403,7 +408,6 @@ export default {
       this.currentImage = item;
       this.instance.loadImageFromURL(item.path, item.name);
       // this.init();
-      console.log("currentImage", this.currentImage);
       this.isPng();
     },
     isPng() {
@@ -428,7 +432,6 @@ export default {
         let imgData = ctx.getImageData(10, 10, width, height);
         let rgba = `rgba(${imgData.data[2]},${imgData.data[1]},${imgData.data[2]},${imgData.data[3]})`;
         this.rgba = rgba;
-        // console.log(c.width);
       }, 1000);
     },
     handlerNext() {
@@ -466,7 +469,6 @@ export default {
     getEditImg() {
       this.initChart();
       this.base64Url = this.instance.toDataURL();
-      console.log(this.base64Url);
       setTimeout(() => {
         this.saveImage();
       }, 500);
@@ -606,9 +608,6 @@ export default {
       });
     },
     changeTeacher(value) {
-      console.log("teacherName", this.teacherName);
-      console.log("返回值", value);
-
       // let current = this.teacherList.find(item => {
       //   return item.value = value
       // })
@@ -653,6 +652,20 @@ export default {
   }
 </style>
 <style lang="less" scoped>
+.img-name-list {
+  display: flex;
+  flex-wrap: wrap;
+  .img-name {
+    margin: 20px 20px 0 0;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  .active {
+    color: #ff0000;
+    font-size: 20px;
+    font-weight: 600;
+  }
+}
 .box {
   display: flex;
   width: 100%;
@@ -676,11 +689,6 @@ export default {
     cursor: pointer;
     background: url() no-repeat;
     background-size: 100% 100%;
-  }
-  .active {
-    width: 90px;
-    height: 110px;
-    border: 2px solid red;
   }
 }
   
