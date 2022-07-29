@@ -269,6 +269,16 @@ export default {
           value: "一半@shakeup-lab",
           avatar: require("../assets/teacher/一半@shakeup-lab.jpg"),
         },
+        {
+          labal: "小马驹@shakeup-lab",
+          value: "小马驹@shakeup-lab",
+          avatar: require("../assets/teacher/小马驹@shakeup-lab.jpeg"),
+        },
+        {
+          labal: "叭鸽@shakeup-lab",
+          value: "叭鸽@shakeup-lab",
+          avatar: require("../assets/teacher/叭鸽@shakeup-lab.jpeg.jpeg"),
+        },
       ],
       rgba: "",
       editor: null,
