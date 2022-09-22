@@ -279,6 +279,26 @@ export default {
           value: "叭鸽@shakeup-lab",
           avatar: require("../assets/teacher/叭鸽@shakeup-lab.jpeg.jpeg"),
         },
+        {
+          labal: "大白@shakeup-lab",
+          value: "大白@shakeup-lab",
+          avatar: require("../assets/teacher/大白@shakeup-lab.jpg"),
+        },
+        {
+          labal: "梨子@shakeup-lab",
+          value: "梨子@shakeup-lab",
+          avatar: require("../assets/teacher/梨子@shakeup-lab.jpg"),
+        },
+        {
+          labal: "小小@shakeup-lab",
+          value: "小小@shakeup-lab",
+          avatar: require("../assets/teacher/小小@shakeup-lab.jpg"),
+        },
+        {
+          labal: "英子@shakeup-lab",
+          value: "英子@shakeup-lab",
+          avatar: require("../assets/teacher/英子@shakeup-lab.jpg"),
+        },
       ],
       rgba: "",
       editor: null,
