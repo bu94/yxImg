@@ -265,8 +265,8 @@ export default {
           avatar: require("../assets/teacher/猜猜子@shakeup-lab.jpg"),
         },
         {
-          labal: "一半@shakeup-lab",
-          value: "一半@shakeup-lab",
+          labal: "阿卜@shakeup-lab",
+          value: "阿卜@shakeup-lab",
           avatar: require("../assets/teacher/一半@shakeup-lab.jpg"),
         },
         {
