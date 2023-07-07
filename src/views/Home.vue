@@ -299,6 +299,11 @@ export default {
           value: "英子@shakeup-lab",
           avatar: require("../assets/teacher/英子@shakeup-lab.jpg"),
         },
+        {
+          labal: "琦琦@shakeup-lab",
+          value: "琦琦@shakeup-lab",
+          avatar: require("../assets/teacher/琦琦@shakeup-lab.jpg"),
+        },
       ],
       rgba: "",
       editor: null,
